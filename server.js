@@ -2,7 +2,7 @@
 The server module that actually start the server.
 It listens on the Unix socket for incoming data and emits this
 data to all who listen on a WebSocket
- */
+*/
 
 var net = require('net'),
     fs = require('fs'),
@@ -11,7 +11,9 @@ var net = require('net'),
     routes = require('./routes'),
     io = require('socket.io');
 
-function start(port, app) {
+var passport = require('passport');
+
+function start(port, app, users) {
 
     io = io(app.listen(port, function(){
         // Get the socket info
@@ -43,9 +45,9 @@ function start(port, app) {
 
 
     // Configure the Express app
-    config(app);
+    config(app, passport, users);
     //Define the routes for the app
-    routes(app);
+    routes(app, passport, users);
 
     /// catch 404 and forward to error handler
     app.use(function(req, res, next) {
@@ -72,11 +74,12 @@ function start(port, app) {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
-            error: {}
+            error: {},
+            user: req.user
         });
     });
 
-    console.log('Your server is running on http://localhost:' + port);
+    console.log('Server is running on http://localhost:' + port);
 }
 
 
