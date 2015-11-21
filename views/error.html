@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include partials/head.html %>
+</head>
+<body>
+<div class="container">
+    <header>
+        <% include partials/header.html %>
+    </header>
+    <main>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Error</h1>
+                <p>The server encountered an error. Please try again later.</p>
+                <% if(error) { %>
+                    <h2><%= error.status %></h2>
+                    <p><%= message %></p>
+                <%}%>
+            </div>
+        </div>
+    </main>
+</div>
+<% include partials/footer.html %>
+</body>
+</html>
