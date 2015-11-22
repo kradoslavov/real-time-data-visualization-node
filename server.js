@@ -29,10 +29,14 @@ function start(port, app, users) {
                     localSocket.on('data', function (data) {
                         // data is a buffer from the socket
                         console.log(data.toString());
-                        var jsonData = JSON.parse(data);
-                        jsonData.rx = parseFloat(jsonData.rx);
-                        jsonData.tx = parseFloat(jsonData.tx);
-
+                        var jsonData = {rx: 0, tx: 0 };
+                        try {
+                            jsonData = JSON.parse(data);
+                            jsonData.rx = parseFloat(jsonData.rx);
+                            jsonData.rx = parseFloat(jsonData.rx);
+                        } catch(e) {
+                            console.error(e.toString());
+                        }
                         io.emit('data', jsonData);
                     });
 
