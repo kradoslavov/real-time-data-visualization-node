@@ -37,7 +37,9 @@ function start(port, app, users) {
 
         });
         //Make the server listen on the specified socket
-        fs.unlinkSync(socketPath);
+        if (fs.existsSync(socketPath)) {
+            fs.unlinkSync(socketPath);
+        }
         unixServer.listen(socketPath);
 
         var exec = require('child_process').exec;
