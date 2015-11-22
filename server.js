@@ -37,7 +37,14 @@ function start(port, app, users) {
 
         });
         //Make the server listen on the specified socket
+        fs.unlinkSync(socketPath);
         unixServer.listen(socketPath);
+
+        var exec = require('child_process').exec;
+        var child = exec('./bin/random.sh', function(err, stdout, stderr) {
+            if (err) throw err;
+            else console.log(stdout);
+        });
 
     }));
 
