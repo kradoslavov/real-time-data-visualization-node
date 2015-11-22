@@ -30,9 +30,9 @@ function start(port, app, users) {
                         // data is a buffer from the socket
                         console.log(data.toString());
                         var jsonData = JSON.parse(data);
-                        //Convert to KB
-                        jsonData.rx = convertToKb(jsonData.rx);
-                        jsonData.tx = convertToKb(jsonData.tx);
+                        jsonData.rx = parseFloat(jsonData.rx);
+                        jsonData.tx = parseFloat(jsonData.tx);
+
                         io.emit('data', jsonData);
                     });
 
