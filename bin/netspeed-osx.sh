@@ -28,5 +28,5 @@ do
         RB=`expr $R2 - $R1`
         TKB=`expr $TB / 1024`
         RKB=`expr $RB / 1024`
-        printf "{\"tx\": \"$TKB\", \"rx\": \"$RKB\"}" | nc -U ../datasocket
+        printf "{\"tx\": \"$TKB\", \"rx\": \"$RKB\"}" | nc -lU ../datasocket
 done
