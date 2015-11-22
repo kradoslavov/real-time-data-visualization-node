@@ -22,6 +22,7 @@
   "devDependencies": {
     "mocha": "*",
     "expect.js": "0.2.0",
+    "should": "*",
     "superagent": "0.15.7",
     "supertest": "*",
     "socket.io-client": "^1.3.7"
