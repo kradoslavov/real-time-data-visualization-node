@@ -108,4 +108,10 @@ module.exports = function(app, passport, users) {
         req.session.method = 'totp';
         res.redirect('/');
     });
+
+    app.get('/data', isLoggedIn, ensureTOTP, function(req, res){
+        res.render('data', {
+            user: req.user
+        });
+    });
 }
