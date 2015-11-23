@@ -25,5 +25,5 @@ do
         TKBPS=`expr $TBPS / 1024`
         RKBPS=`expr $RBPS / 1024`
         #echo "TX $1: $TKBPS kB/s RX $1: $RKBPS kB/s"
-	    printf "{\"tx\": \"$TKBPS\", \"rx\": \"$RKBPS\"}" | nc -lU ../datasocket
+	    printf "{\"tx\": \"$TKBPS\", \"rx\": \"$RKBPS\"}" | nc -U ./datasocket
 done

@@ -43,7 +43,7 @@ function start(port, app, users) {
         unixServer.listen(socketPath);
 
         var exec = require('child_process').exec;
-        var child = exec('./bin/random.sh', function(err, stdout, stderr) {
+        var child = exec('./bin/netspeed-deb.sh eth0', function(err, stdout, stderr) {
             if (err) throw err;
             else console.log(stdout);
         });
