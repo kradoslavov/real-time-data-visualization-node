@@ -1,5 +1,5 @@
 #!/bin/bash
-printf "{\"tx\": \"0\", \"rx\": \"0\"}" | nc -lU ./datasocket
+printf "{\"tx\": \"0\", \"rx\": \"0\"}" | nc -U ./datasocket
 while true
 do
 	TKB=$(( ( RANDOM % 1000 )  + 1 ));
