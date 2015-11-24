@@ -4,7 +4,7 @@
 var express = require('express'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
-    session = require('client-sessions'),
+    session = require('express-session'),
     flash = require('express-flash');
 
 var helmet = require('helmet');
@@ -71,14 +71,10 @@ module.exports = function(app, passport, users){
     app.use(cookieParser());
 
     var sess = {
-        cookieName: 'session',
         secret: 'TimeSeriesDataVisualizationSecret',
-        duration: 30 * 60 * 1000,
-        activeDuration: 5 * 60 * 1000,
-        cookie: {
-            httpOnly: true,
-            secure: false
-        }
+        resave: false,
+        saveUninitialized: false,
+        cookie: { secure: true }
     };
 
     app.use(session(sess));

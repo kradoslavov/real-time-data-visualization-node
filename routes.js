@@ -32,7 +32,6 @@ module.exports = function(app, passport, users, securePort) {
 
     function ensureSecure(req, res, next){
         if(req.secure){
-            if(req.session.cookie) req.session.cookie.secure = true;
             // OK, continue
             return next();
         };
