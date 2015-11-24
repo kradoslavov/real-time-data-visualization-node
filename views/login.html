@@ -14,6 +14,7 @@
         <div class="row">
             <div class="col-md-12">
                 <form class="login-form form-horizontal" role="form" method="POST" action="/login" enctype="application/x-www-form-urlencoded">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <div class="form-group">
                         <label class="col-sm-2 col-sm-offset-2">Username:</label>
                         <div class="col-sm-5 col-sm-offset-right-3">

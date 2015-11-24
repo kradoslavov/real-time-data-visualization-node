@@ -6,6 +6,7 @@ var express = require('express'),
 
 // This is needed if the app will run on heroku
 var port = process.env.PORT || 8080;
+var securePort = 8443;
 var users = {};
 try {
     users = JSON.parse(fs.readFileSync('users.json', { encoding: "utf8" }));
@@ -13,4 +14,4 @@ try {
     // users will be empty
 }
 //Start the server
-server.start(port, app, users);
+server.start(port, app, users, securePort);

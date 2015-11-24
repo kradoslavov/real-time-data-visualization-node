@@ -3,6 +3,11 @@ var crypto = require('crypto'),
     sprintf = require('sprintf'),
     fs = require('fs');
 
+var csrf = require('csurf');
+
+//Protection agains Cross-site Request Forgery
+var csrfProtection = csrf({ cookie: true })
+
 // Middleware to check if user is loggedIn
 function isLoggedIn(req, res, next) {
     if(req.isAuthenticated()) {
@@ -16,13 +21,26 @@ function ensureTOTP(req, res, next) {
     if (req.session.method == 'totp') { return next(); }
     res.redirect('/otp-login')
 }
+
 /*
  General routing definition.
  Params:    app - The Express app
             passport - The authentication middleware
             users - the list of all users - this should be done in a DB
  */
-module.exports = function(app, passport, users) {
+module.exports = function(app, passport, users, securePort) {
+
+    function ensureSecure(req, res, next){
+        if(req.secure){
+            if(req.session.cookie) req.session.cookie.secure = true;
+            // OK, continue
+            return next();
+        };
+        res.redirect('https://'+req.hostname+':'+securePort+req.url); // handle port numbers if you need non defaults
+    };
+
+    //Use this to ensure HTTPS
+    app.use(ensureSecure);
 
     // Main home route, showing the home template, where the graph is rendered
     app.get('/', isLoggedIn, ensureTOTP, function(req, res){
@@ -32,11 +50,11 @@ module.exports = function(app, passport, users) {
     });
 
     // Login route rendering the Login page, if already logged in, show the home page
-    app.get('/login', function(req, res){
+    app.get('/login', csrfProtection, function(req, res){
         if(req.isAuthenticated()) {
             res.redirect('/');
         } else {
-            res.render('login', {error: req.flash('error') });
+            res.render('login', {error: req.flash('error'), csrfToken: req.csrfToken() });
         }
     });
 
@@ -53,7 +71,7 @@ module.exports = function(app, passport, users) {
      of authentication - TOTP using Google's algorithm. If user account does not have
      a secret key already, generate one, store it and show the TOTP login page.
      */
-    app.post('/login',
+    app.post('/login', csrfProtection,
         passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),
         function(req, res) {
 

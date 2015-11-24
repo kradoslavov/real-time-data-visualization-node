@@ -7,6 +7,8 @@ var express = require('express'),
     session = require('client-sessions'),
     flash = require('express-flash');
 
+var helmet = require('helmet');
+
 var base32 = require('thirty-two');
 var LocalStrategy = require('passport-local').Strategy,
     TotpStrategy = require('passport-totp').Strategy;
@@ -50,6 +52,12 @@ module.exports = function(app, passport, users){
         done(new Error("Not found"));
     });
 
+    //Tell the app to use the Helmet middleware for more security headers like HSTS, some XSS, etc.
+    app.use(helmet());
+
+    //Enables reverse proxy support
+    app.set('trust proxy', 1);
+
     // Set .html as the default template extension
     app.set('view engine', 'html');
 
@@ -62,12 +70,19 @@ module.exports = function(app, passport, users){
     //Use this middleware to populate the cookie header in the req.cookies
     app.use(cookieParser());
 
-    app.use(session({
+    var sess = {
         cookieName: 'session',
         secret: 'TimeSeriesDataVisualizationSecret',
         duration: 30 * 60 * 1000,
-        activeDuration: 5 * 60 * 1000
-    }));
+        activeDuration: 5 * 60 * 1000,
+        cookie: {
+            httpOnly: true,
+            secure: false
+        }
+    };
+
+    app.use(session(sess));
+
     app.use(passport.initialize());
     app.use(passport.session());
     // Use this to pass session messages
