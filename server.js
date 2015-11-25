@@ -36,7 +36,7 @@ function start(port, app, users, securePort) {
             //Handle the incoming data
             localSocket.on('data', function (data) {
                 // data is a buffer from the socket
-                console.log(data.toString());
+                //console.log(data.toString());
                 var jsonData = {rx: 0, tx: 0 };
                 try {
                     jsonData = JSON.parse(data);
@@ -59,8 +59,6 @@ function start(port, app, users, securePort) {
         var exec = require('child_process').exec;
         var child = exec('./bin/netspeed-deb.sh eth0',
             function (error, stdout, stderr) {
-                console.log('stdout: ' + stdout);
-                console.log('stderr: ' + stderr);
                 if (error !== null) {
                     console.log('exec error: ' + error);
                 }

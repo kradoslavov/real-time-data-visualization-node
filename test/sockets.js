@@ -1,8 +1,9 @@
 var io = require('socket.io-client'),
     expect = require('expect.js'),
-    port = 8080;
+    port = 8080,
+    securePort = 8443;
 
-var socketURL = 'http://localhost:' + port;
+var socketURL = 'https://localhost:' + securePort;
 
 describe('Time series data', function() {
     var socket;

@@ -4,8 +4,13 @@ var express = require('express'),
     fs = require('fs'),
     server = require('./server');
 
+if ('development' == app.get('env')) {
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+}
+
 // This is needed if the app will run on heroku
 var port = process.env.PORT || 8080;
+
 var securePort = 8443;
 var users = {};
 try {
